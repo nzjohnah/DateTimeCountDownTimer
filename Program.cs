@@ -42,34 +42,43 @@ namespace ThreadingTimer
             /// </summary>
             public void StartUpdating(double totalTime)
             {
-
+                //Initialise timer variables
                 TotalCountDownTime = totalTime;
                 RemainingCountDownTime = totalTime;
 
                 StartDateTime = DateTime.Now;
 
+                //Specified timer to have 1 second interval
                 timer = new Timer(1000);
-                Console.WriteLine(RemainingCountDownTime.ToString("#"));
+
+                // Output the inital
+                Console.WriteLine(TotalCountDownTime.ToString("#"));
+                // Execute Ticking method for time check and timer ending check
                 timer.Elapsed += (sender, e) => Tick();
                 timer.Enabled = true;
             }
             public void Tick()
             {
-                
+                //Executes every single second
                 var ActualTotalElapsedTime = (DateTime.Now - StartDateTime).TotalSeconds;
 
                 if (ActualTotalElapsedTime < TotalCountDownTime)
                 {
+                    //Timer calibrated with actual DateTime 
                     RemainingCountDownTime = TotalCountDownTime - ActualTotalElapsedTime;
+                    //Output to Console, this could be used to update the timer on interface
                     Console.WriteLine(RemainingCountDownTime.ToString("#"));
                 }
                 else
                 {
-                    RemainingCountDownTime = 0;
-                    Console.WriteLine("Times up!");
+                    //Execute when time is up
+                    //Set to 0
                     RemainingCountDownTime = 0;
                     TotalCountDownTime = 0;
-
+                    // Output to Console
+                    Console.WriteLine("Times up!");
+                    
+                    // Disable clear
                     if (timer != null)
                     {
                         timer.Enabled = false;
